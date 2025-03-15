@@ -12,12 +12,15 @@
             touch-action: none; /* タッチスクロール防止 
         } */
         body {
+        position: relative;
         text-align: center;
         font-family: Arial, sans-serif;
         user-select: none; /* テキスト選択防止 */
         /* touch-action: none; 削除 */
         overflow-x: auto; /* 横スクロールを可能にする */
         white-space: nowrap; /* コンテンツが横スクロールするように */
+        margin: 0;
+        padding: 4px 4px 200px 4px;
         }
         #container {
             position: relative;
@@ -84,6 +87,25 @@
             margin: 0;
             padding: 4px;
         }
+        .footer-container {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            padding: 8px;
+            width: 100%;
+            height: 250px;
+            background-color: #ffffff7a;
+        }
+        .updownBtn {
+            display: flex;
+            justify-content: start;
+        }
+        .footer-container.change {
+            bottom: -160px;
+        }
+        .updownBtn.change {
+            transform: rotate(180deg);
+        }
     </style>
 </head>
 <body>
@@ -95,27 +117,30 @@
     <div><img src="img/BGwood1.jpg" alt="" id="bg-image"></div>
 </div>
 
-<div class="btn-box-phone">
-    <button class="btn btn-phone" onclick="setSize(375, 667)">iPhone SE</button>
-    <button class="btn btn-phone" onclick="setSize(414, 896)">iPhone XR</button>
-    <button class="btn btn-phone" onclick="setSize(390, 844)">iPhone12 PRO</button>
-    <button class="btn btn-phone" onclick="setSize(430, 932)">iPhone14 PRO Max</button>
-    <button class="btn btn-phone" onclick="setSize(412, 915)">Pixel 7</button>
-    <button class="btn btn-phone" onclick="setSize(360, 740)">Samsung Galaxy S8+</button>
-</div>
-<div class="btn-box">
-    <button class="btn imgChange" onclick="changeImg('img/BGwood1.jpg')">50%</button>
-    <button class="btn imgChange" onclick="changeImg('img/BGwood2.jpg')">60%</button>
-    <button class="btn imgChange" onclick="changeImg('img/BGwood3.jpg')">70%</button>
-    <button class="btn imgChange" onclick="changeImg('img/BGwood4.jpg')">80%</button>
-    <button class="btn imgChange" onclick="changeImg('img/BGwood5.jpg')">90%</button>
-    <button class="btn imgChange" onclick="changeImg('img/BGwood6.jpg')">100%</button>
-    <button class="btn imgChange" onclick="changeImg('img/BGwood7.jpg')">200%</button>
-</div>
-<div class="btn-box">
-    <button class="btn imgChange reset" onclick="resetImg(0, 0)">リセット</button>
-    <button class="btn imgChange reset" onclick="resetImg(0, undefined)">x = 0</button>
-    <button class="btn imgChange reset" onclick="resetImg(undefined, 0)">y = 0</button>
+<div class="footer-container">
+    <button class="btn updownBtn" onclick="updown()">▼</button>
+    <div class="btn-box-phone">
+        <button class="btn btn-phone" onclick="setSize(375, 667)">iPhone SE</button>
+        <button class="btn btn-phone" onclick="setSize(414, 896)">iPhone XR</button>
+        <button class="btn btn-phone" onclick="setSize(390, 844)">iPhone12 PRO</button>
+        <button class="btn btn-phone" onclick="setSize(430, 932)">iPhone14 PRO Max</button>
+        <button class="btn btn-phone" onclick="setSize(412, 915)">Pixel 7</button>
+        <button class="btn btn-phone" onclick="setSize(360, 740)">Samsung Galaxy S8+</button>
+    </div>
+    <div class="btn-box">
+        <button class="btn imgChange" onclick="changeImg('img/BGwood1.jpg')">50%</button>
+        <button class="btn imgChange" onclick="changeImg('img/BGwood2.jpg')">60%</button>
+        <button class="btn imgChange" onclick="changeImg('img/BGwood3.jpg')">70%</button>
+        <button class="btn imgChange" onclick="changeImg('img/BGwood4.jpg')">80%</button>
+        <button class="btn imgChange" onclick="changeImg('img/BGwood5.jpg')">90%</button>
+        <button class="btn imgChange" onclick="changeImg('img/BGwood6.jpg')">100%</button>
+        <button class="btn imgChange" onclick="changeImg('img/BGwood7.jpg')">200%</button>
+    </div>
+    <div class="btn-box">
+        <button class="btn imgChange reset" onclick="resetImg(0, 0)">リセット</button>
+        <button class="btn imgChange reset" onclick="resetImg(0, undefined)">x = 0</button>
+        <button class="btn imgChange reset" onclick="resetImg(undefined, 0)">y = 0</button>
+    </div>
 </div>
 
 <script>
@@ -124,6 +149,13 @@
     let coords = document.getElementById('coords');
     let isDragging = false;
     let startX, startY, offsetX = 0, offsetY = 0;
+
+    function updown() {
+        const footerContainer = document.querySelector(".footer-container");
+        const updownBtn = document.querySelector(".updownBtn");
+        footerContainer.classList.toggle("change");
+        updownBtn.classList.toggle("change");
+    }
 
     // **マウスイベント（PC用）**
     bgImage.addEventListener('mousedown', (e) => startDrag(e.clientX, e.clientY));
